@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="../styles/master.css">
+    <link rel="stylesheet" href="../styles/mindmap.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../res/vis-4.20.0/dist/vis.js"></script>
+    <script type="text/javascript" src="../js/mindmap.js"></script>
+    <link href="../res/vis-4.20.0/dist/vis.css" rel="stylesheet" type="text/css" />
+  </head>
+  
+  <body>
+
+    <div class="flex-container">
+      <header>
+        <h1>MindMap</h1>
+      </header>
+
+      <nav class="nav">
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+        </ul>
+        <label>Create A New Node attached to the currently selected node:</label>
+        <br/>
+        <input id="nodePopulator" placeholder="Add Node Text Here And Hit Enter"></input>
+        <ul class="suggestions">
+        </ul>
+      </nav>
+
+      <article class="article">
+        <div id="mynetwork"></div>
+      </article>
+    </div>
+
+  </body>
+</html>
