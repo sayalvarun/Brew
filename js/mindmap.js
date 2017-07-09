@@ -82,8 +82,8 @@ var addNode = function(nodeName) {
         edges.add({from:selectedNodes[i], to:newNode["id"]})
       }
     }
-
   }
+
 }
 
 var updateRelatedWords = function(nodeName){
@@ -116,16 +116,22 @@ $(document).ready(function() {
       if (key === ENTER_KEY_CODE) { 
         var nodeName = $(this).val()
         addNode(nodeName)
+        // Update suggested words
         updateRelatedWords(nodeName)
 
         // On a newly suggested word, add logic to update related words when selected
         $('#suggestions').on('click', '.suggWord', function() {
           nodeName = $($(this)[0]).text()
           addNode(nodeName)
-          updateRelatedWords(nodeName)
         });
       }
     });
   });
+
+  network.on('selectNode', function(info) {
+    selectedNode = info['nodes'][0]
+    selectedName = nodes.get(selectedNode)['label']
+    updateRelatedWords(selectedName)
+  })
 
 });
