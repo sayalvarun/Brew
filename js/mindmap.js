@@ -86,25 +86,45 @@ var addNode = function(nodeName) {
   }
 }
 
+var updateRelatedWords = function(nodeName){
+  $("#suggestions").html("")
+  $(this).val("") // Clear text for the next node
+  relatedWords = RELATED_THESAURUS[nodeName.toUpperCase()]
+  suggestionString = ""
+  
+  if (relatedWords == null) {
+    suggestionString += "<li><a>No suggestions were found...</a></li>"
+  }
+  else {
+    for (var i=0; i < relatedWords.length; i++) {
+      suggestionString += "<li><a class='suggWord'>"+Object.keys(relatedWords[i])[0].toLowerCase()+"</a></li>"
+    }
+  }
+
+  $("#suggestions").html(suggestionString)
+}
+
 $(document).ready(function() {
 
   initGraph()
   initQueue()
 
-  document.querySelector('#nodePopulator').addEventListener('keypress', function (e) {
-    var key = e.which || e.keyCode;
-    if (key === ENTER_KEY_CODE) {
-      console.log("Enter key fired") 
-      var nodeName = $(this).val()
-      addNode(nodeName)
-      $(this).val("") // Clear text for the next node
-    }
-  });
-
   $.getJSON("../res/ea-thesaurus-master/ea-thesaurus.json", function(json) {
     RELATED_THESAURUS = json
-    $("#nodePopulator").click(function(){
-      $("#suggestions").html(json[defaultNode[label]])
+    document.querySelector('#nodePopulator').addEventListener('keypress', function (e) {
+      var key = e.which || e.keyCode;
+      if (key === ENTER_KEY_CODE) { 
+        var nodeName = $(this).val()
+        addNode(nodeName)
+        updateRelatedWords(nodeName)
+
+        // On a newly suggested word, add logic to update related words when selected
+        $('#suggestions').on('click', '.suggWord', function() {
+          nodeName = $($(this)[0]).text()
+          addNode(nodeName)
+          updateRelatedWords(nodeName)
+        });
+      }
     });
   });
 
